@@ -119,7 +119,6 @@ component("net") {
     "base/address_list.h",
     "base/auth.cc",
     "base/auth.h",
-    "base/completion_callback.h",
     "base/completion_once_callback.h",
     "base/completion_repeating_callback.h",
     "base/datagram_buffer.cc",
@@ -148,7 +147,6 @@ component("net") {
     "base/net_error_list.h",
     "base/net_errors.cc",
     "base/net_errors.h",
-    "base/net_export.h",
     "base/net_module.cc",
     "base/net_module.h",
     "base/net_string_util.h",
@@ -387,10 +385,12 @@ component("net") {
   ]
 
   public_deps = [
+    ":net_export_header",
     ":net_public_deps",
     "//net/dns",
     "//net/dns:dns_client",
     "//net/dns:host_resolver",
+    "//net/dns:host_resolver_manager",
     "//net/dns:mdns_client",
     "//net/dns/public",
   ]
@@ -399,6 +399,7 @@ component("net") {
     "//net/dns",
     "//net/dns:dns_client",
     "//net/dns:host_resolver",
+    "//net/dns:host_resolver_manager",
     "//net/dns:mdns_client",
     "//net/dns/public",
     "//net/http:transport_security_state_generated_files",
@@ -1018,7 +1019,6 @@ component("net") {
       "quic/platform/impl/quic_socket_address_impl.h",
       "quic/platform/impl/quic_stack_trace_impl.h",
       "quic/platform/impl/quic_str_cat_impl.h",
-      "quic/platform/impl/quic_string_impl.h",
       "quic/platform/impl/quic_string_piece_impl.h",
       "quic/platform/impl/quic_text_utils_impl.h",
       "quic/properties_based_quic_server_info.cc",
@@ -1064,8 +1064,6 @@ component("net") {
       "socket/client_socket_factory.h",
       "socket/client_socket_pool.cc",
       "socket/client_socket_pool.h",
-      "socket/client_socket_pool_base.cc",
-      "socket/client_socket_pool_base.h",
       "socket/client_socket_pool_manager.cc",
       "socket/client_socket_pool_manager.h",
       "socket/client_socket_pool_manager_impl.cc",
@@ -1347,6 +1345,10 @@ component("net") {
       "third_party/quiche/src/quic/core/crypto/aes_256_gcm_decrypter.h",
       "third_party/quiche/src/quic/core/crypto/aes_256_gcm_encrypter.cc",
       "third_party/quiche/src/quic/core/crypto/aes_256_gcm_encrypter.h",
+      "third_party/quiche/src/quic/core/crypto/aes_base_decrypter.cc",
+      "third_party/quiche/src/quic/core/crypto/aes_base_decrypter.h",
+      "third_party/quiche/src/quic/core/crypto/aes_base_encrypter.cc",
+      "third_party/quiche/src/quic/core/crypto/aes_base_encrypter.h",
       "third_party/quiche/src/quic/core/crypto/cert_compressor.cc",
       "third_party/quiche/src/quic/core/crypto/cert_compressor.h",
       "third_party/quiche/src/quic/core/crypto/chacha20_poly1305_decrypter.cc",
@@ -1357,6 +1359,10 @@ component("net") {
       "third_party/quiche/src/quic/core/crypto/chacha20_poly1305_tls_decrypter.h",
       "third_party/quiche/src/quic/core/crypto/chacha20_poly1305_tls_encrypter.cc",
       "third_party/quiche/src/quic/core/crypto/chacha20_poly1305_tls_encrypter.h",
+      "third_party/quiche/src/quic/core/crypto/chacha_base_decrypter.cc",
+      "third_party/quiche/src/quic/core/crypto/chacha_base_decrypter.h",
+      "third_party/quiche/src/quic/core/crypto/chacha_base_encrypter.cc",
+      "third_party/quiche/src/quic/core/crypto/chacha_base_encrypter.h",
       "third_party/quiche/src/quic/core/crypto/channel_id.cc",
       "third_party/quiche/src/quic/core/crypto/channel_id.h",
       "third_party/quiche/src/quic/core/crypto/common_cert_set.cc",
@@ -1375,6 +1381,7 @@ component("net") {
       "third_party/quiche/src/quic/core/crypto/crypto_utils.h",
       "third_party/quiche/src/quic/core/crypto/curve25519_key_exchange.cc",
       "third_party/quiche/src/quic/core/crypto/curve25519_key_exchange.h",
+      "third_party/quiche/src/quic/core/crypto/key_exchange.cc",
       "third_party/quiche/src/quic/core/crypto/key_exchange.h",
       "third_party/quiche/src/quic/core/crypto/null_decrypter.cc",
       "third_party/quiche/src/quic/core/crypto/null_decrypter.h",
@@ -1617,6 +1624,8 @@ component("net") {
       "third_party/quiche/src/quic/core/tls_server_handshaker.h",
       "third_party/quiche/src/quic/core/uber_quic_stream_id_manager.cc",
       "third_party/quiche/src/quic/core/uber_quic_stream_id_manager.h",
+      "third_party/quiche/src/quic/core/uber_received_packet_manager.cc",
+      "third_party/quiche/src/quic/core/uber_received_packet_manager.h",
       "third_party/quiche/src/quic/platform/api/quic_aligned.h",
       "third_party/quiche/src/quic/platform/api/quic_arraysize.h",
       "third_party/quiche/src/quic/platform/api/quic_bug_tracker.h",
@@ -1659,7 +1668,6 @@ component("net") {
       "third_party/quiche/src/quic/platform/api/quic_socket_address.h",
       "third_party/quiche/src/quic/platform/api/quic_stack_trace.h",
       "third_party/quiche/src/quic/platform/api/quic_str_cat.h",
-      "third_party/quiche/src/quic/platform/api/quic_string.h",
       "third_party/quiche/src/quic/platform/api/quic_string_piece.h",
       "third_party/quiche/src/quic/platform/api/quic_text_utils.h",
       "third_party/quiche/src/spdy/core/hpack/hpack_constants.cc",
@@ -1796,6 +1804,7 @@ component("net") {
       sources += [
         "network_error_logging/network_error_logging_service.cc",
         "network_error_logging/network_error_logging_service.h",
+        "network_error_logging/persistent_reporting_and_nel_store.h",
         "reporting/reporting_browsing_data_remover.cc",
         "reporting/reporting_browsing_data_remover.h",
         "reporting/reporting_cache.cc",
@@ -2213,6 +2222,14 @@ component("net") {
   }
 }
 
+# net_export.h has its own build target so that code (eg
+# net_nqe_proto) can use it without depending on the whole of //net.
+source_set("net_export_header") {
+  sources = [
+    "base/net_export.h",
+  ]
+}
+
 # Private dependencies for the //net component and for any build targets (e.g.
 # source sets with circular dependencies with //net) that need to share the same
 # dependencies.
@@ -2222,6 +2239,7 @@ source_set("net_deps") {
     "//net/dns",
     "//net/dns:dns_client",
     "//net/dns:host_resolver",
+    "//net/dns:host_resolver_manager",
     "//net/dns:mdns_client",
     "//net/dns/public",
     "//net/http:transport_security_state_generated_files",
@@ -2229,6 +2247,7 @@ source_set("net_deps") {
 
   public_deps = [
     ":constants",
+    ":net_export_header",
     ":net_resources",
     ":preload_decoder",
     "//base",
@@ -2273,6 +2292,8 @@ source_set("net_deps") {
 
     if (!disable_brotli_filter) {
       public_deps += [ "//third_party/brotli:dec" ]
+    } else {
+      public_deps += [ "//third_party/brotli:headers" ]
     }
   }
 }
@@ -2286,6 +2307,7 @@ source_set("net_public_deps") {
     "//net/dns",
     "//net/dns:dns_client",
     "//net/dns:host_resolver",
+    "//net/dns:host_resolver_manager",
     "//net/dns:mdns_client",
     "//net/dns/public",
     "//net/http:transport_security_state_generated_files",
@@ -2307,6 +2329,14 @@ source_set("net_public_deps") {
   }
 }
 
+if (is_android) {
+  java_cpp_enum("effective_connection_type_java") {
+    sources = [
+      "//net/nqe/effective_connection_type.h",
+    ]
+  }
+}
+
 grit("net_resources") {
   source = "base/net_resources.grd"
   outputs = [
@@ -2325,6 +2355,10 @@ proto_library("net_nqe_proto") {
   cc_include = "net/base/net_export.h"
   component_build_force_source_set = true
 
+  deps = [
+    ":net_export_header",
+  ]
+
   defines = [ "NET_IMPLEMENTATION" ]
 
   extra_configs = [ "//build/config/compiler:wexit_time_destructors" ]
@@ -2342,6 +2376,10 @@ proto_library("net_quic_proto") {
   cc_include = "net/base/net_export.h"
   component_build_force_source_set = true
 
+  deps = [
+    ":net_export_header",
+  ]
+
   defines = [ "NET_IMPLEMENTATION" ]
 
   extra_configs = [ "//build/config/compiler:wexit_time_destructors" ]
@@ -2351,8 +2389,6 @@ if (!is_proto_quic) {
   component("extras") {
     sources = [
       "extras/sqlite/cookie_crypto_delegate.h",
-      "extras/sqlite/sqlite_channel_id_store.cc",
-      "extras/sqlite/sqlite_channel_id_store.h",
       "extras/sqlite/sqlite_persistent_cookie_store.cc",
       "extras/sqlite/sqlite_persistent_cookie_store.h",
       "extras/sqlite/sqlite_persistent_store_backend_base.cc",
@@ -2720,6 +2756,8 @@ static_library("test_support") {
     "test/embedded_test_server/simple_connection_listener.h",
     "test/event_waiter.h",
     "test/gtest_util.h",
+    "test/key_util.cc",
+    "test/key_util.h",
     "test/keychain_test_util_mac.cc",
     "test/keychain_test_util_mac.h",
     "test/net_test_suite.cc",
@@ -4939,7 +4977,6 @@ test("net_unittests") {
     "disk_cache/simple/simple_test_util.h",
     "disk_cache/simple/simple_util_unittest.cc",
     "disk_cache/simple/simple_version_upgrade_unittest.cc",
-    "extras/sqlite/sqlite_channel_id_store_unittest.cc",
     "extras/sqlite/sqlite_persistent_cookie_store_unittest.cc",
     "filter/brotli_source_stream_unittest.cc",
     "filter/filter_source_stream_unittest.cc",
@@ -4982,7 +5019,6 @@ test("net_unittests") {
     "http/http_network_layer_unittest.cc",
     "http/http_network_transaction_ssl_unittest.cc",
     "http/http_network_transaction_unittest.cc",
-    "http/http_proxy_client_socket_pool_unittest.cc",
     "http/http_proxy_client_socket_unittest.cc",
     "http/http_proxy_connect_job_unittest.cc",
     "http/http_request_headers_unittest.cc",
@@ -5079,6 +5115,7 @@ test("net_unittests") {
     "quic/quic_test_packet_maker.h",
     "quic/quic_utils_chromium_test.cc",
     "socket/client_socket_pool_base_unittest.cc",
+    "socket/client_socket_pool_unittest.cc",
     "socket/connect_job_test_util.cc",
     "socket/connect_job_test_util.h",
     "socket/connect_job_unittest.cc",
@@ -5784,7 +5821,6 @@ test("net_unittests") {
       "http/http_auth_unittest.cc",
       "http/http_content_disposition_unittest.cc",
       "http/http_network_transaction_unittest.cc",
-      "http/http_proxy_client_socket_pool_unittest.cc",
       "spdy/spdy_network_transaction_unittest.cc",
       "spdy/spdy_proxy_client_socket_unittest.cc",
       "url_request/url_request_job_unittest.cc",
@@ -5937,6 +5973,25 @@ source_set("net_fuzzer_test_support") {
   allow_circular_includes_from = [ "//net/dns:fuzzer_test_support" ]
 }
 
+proto_library("disk_cache_lpm_fuzzer_proto") {
+  sources = [
+    "disk_cache/disk_cache_fuzzer.proto",
+  ]
+}
+
+fuzzer_test("disk_cache_lpm_fuzzer") {
+  sources = [
+    "disk_cache/disk_cache_fuzzer.cc",
+  ]
+  deps = [
+    ":disk_cache_lpm_fuzzer_proto",
+    ":test_support",
+    "//base",
+    "//net",
+    "//third_party/libprotobuf-mutator",
+  ]
+}
+
 fuzzer_test("net_data_job_fuzzer") {
   sources = [
     "url_request/url_request_data_job_fuzzer.cc",
@@ -6071,6 +6126,50 @@ fuzzer_test("net_cert_verify_name_in_subtree_fuzzer") {
   ]
   deps = [
     ":net_fuzzer_test_support",
+    "//base",
+    "//net",
+  ]
+}
+
+fuzzer_test("net_cert_ocsp_parse_ocsp_cert_id_fuzzer") {
+  sources = [
+    "cert/internal/ocsp_parse_ocsp_cert_id_fuzzer.cc",
+  ]
+  seed_corpus = "data/fuzzer_data/parse_ocsp_cert_id_fuzzer"
+  deps = [
+    "//base",
+    "//net",
+  ]
+}
+
+fuzzer_test("net_cert_ocsp_parse_ocsp_single_response_fuzzer") {
+  sources = [
+    "cert/internal/ocsp_parse_ocsp_single_response_fuzzer.cc",
+  ]
+  seed_corpus = "data/fuzzer_data/parse_ocsp_single_response_fuzzer"
+  deps = [
+    "//base",
+    "//net",
+  ]
+}
+
+fuzzer_test("net_cert_ocsp_parse_ocsp_response_data_fuzzer") {
+  sources = [
+    "cert/internal/ocsp_parse_ocsp_response_data_fuzzer.cc",
+  ]
+  seed_corpus = "data/fuzzer_data/parse_ocsp_response_data_fuzzer"
+  deps = [
+    "//base",
+    "//net",
+  ]
+}
+
+fuzzer_test("net_cert_ocsp_parse_ocsp_response_fuzzer") {
+  sources = [
+    "cert/internal/ocsp_parse_ocsp_response_fuzzer.cc",
+  ]
+  seed_corpus = "data/fuzzer_data/parse_ocsp_response_fuzzer"
+  deps = [
     "//base",
     "//net",
   ]
