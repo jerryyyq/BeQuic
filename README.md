@@ -253,7 +253,13 @@ quic
 git clone https://github.com/sonysuqin/BeQuic.git
 ```
 #### 4.3.3.2 下载chromium源码
-在quic目录下，按照chromium的官方[编译文档](https://chromium.googlesource.com/chromium/src/+/master/docs/linux_build_instructions.md)，下载chromium代码(需要一个比较好的VPN)。
+1. 在quic目录下，按照chromium的官方[编译文档](https://chromium.googlesource.com/chromium/src/+/master/docs/linux_build_instructions.md)，下载chromium代码(需要一个比较好的VPN)。
+
+2. 获得对应版本代码
+cd src
+git checkout ec12ef7159674fc37fd340f12aeb81fccfb547a6 -b bequic
+gclient sync
+
 #### 4.3.3.3 打bequic补丁
 进入BeQuic/patch目录下，执行
 ```
