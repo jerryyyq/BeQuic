@@ -270,7 +270,11 @@ gclient sync
 目的：
 - 将BeQuic/patch/BUILD.gn覆盖chromium/src/net目录下的BUILD.gn文件；
 - 把BeQuic/src/chromium下的文件拷贝到chromium/src/net/tools/quic目录下；
->补丁并不修改chromium的源代码。
+- 补丁并不修改chromium的源代码。
+
+根目录下的 quic_simple_server_stream.cc 是改的：net/third_party/quiche/src/quic/tools/quic_simple_server_stream.cc    
+增加了对 headers[":yyq"] 的特殊处理流程   
+
 #### 4.3.3.4 生成工程
 在chromium/src下执行：
 ```

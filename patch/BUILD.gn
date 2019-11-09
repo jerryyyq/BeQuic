@@ -3495,6 +3495,18 @@ if (!is_ios) {
       "//third_party/protobuf:protobuf_lite",
     ]
   }
+  executable("yyq_quic_client") {
+    sources = [
+      "tools/quic/yyq_quic_echo_client_bin.cc",
+    ]
+    deps = [
+      ":net",
+      ":simple_quic_tools",
+      "//base",
+      "//build/win:default_exe_manifest",
+      "//url",
+    ]
+  }
   shared_library("libbequic") {
     sources = [
       "tools/quic/basic_streambuf.hpp",
